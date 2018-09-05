@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private void checkFile(File file) {
         if (!file.exists() && file.mkdirs()){
             copyFiles();
@@ -97,17 +99,42 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent,REQUEST_CODE_CAMERA);
     }
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent intent){
+//        super.onActivityResult(requestCode,resultCode,intent);
+//        if(requestCode == REQUEST_CODE_CAMERA){
+//            bitmap = (Bitmap) intent.getExtras().get("data");
+//            imageView.setImageBitmap(bitmap);
+//
+//
+//        }else if(resultCode == RESULT_CANCELED ){
+//            Toast.makeText(this,"CANCEL",Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
+
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent){
-        super.onActivityResult(requestCode,resultCode,intent);
-        if(requestCode == REQUEST_CODE_CAMERA){
-            bitmap = (Bitmap) intent.getExtras().get("data");
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_CAMERA) {
+            Bitmap bitmap;
+            // cancelしたケースも含む
+            if(data.getExtras() == null){
+                Log.d("debug","cancel ?");
+                return;
+            }
+            else{
+                bitmap = (Bitmap) data.getExtras().get("data");
+                if(bitmap != null){
+                    // 画像サイズを計測
+                    int bmpWidth = bitmap.getWidth();
+                    int bmpHeight = bitmap.getHeight();
+                    Log.d("debug",String.format("w= %d",bmpWidth));
+                    Log.d("debug",String.format("h= %d",bmpHeight));
+                }
+            }
+
             imageView.setImageBitmap(bitmap);
-
-
-        }else if(resultCode == RESULT_CANCELED ){
-            Toast.makeText(this,"CANCEL",Toast.LENGTH_SHORT).show();
         }
-
     }
 }
