@@ -23,10 +23,11 @@
             android:id="@+id/button2"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="写真を撮る"
             android:background="@color/colorPrimary"
-            android:textColor="@android:color/white"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
+            android:onClick="camera"
+            android:text="写真を撮る"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/button"
