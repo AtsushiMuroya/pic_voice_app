@@ -117,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_CAMERA) {
-            Bitmap bitmap;
             // cancelしたケースも含む
             if(data.getExtras() == null){
                 Log.d("debug","cancel ?");
