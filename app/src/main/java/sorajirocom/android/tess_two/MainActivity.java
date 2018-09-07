@@ -23,6 +23,7 @@ import java.io.OutputStream;
 public class MainActivity extends AppCompatActivity {
     static final String DEFAULT_LANGUAGE = "jpn";
     static final int REQUEST_CODE_CAMERA = 1;
+    static final int REQUEST_CODE_GALLARY = 2;
 
     String filepath;
     Bitmap bitmap;
@@ -99,6 +100,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent,REQUEST_CODE_CAMERA);
     }
+    public void gallary (View v){
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent,REQUEST_CODE_GALLARY);
+    }
 
 //    @Override
 //    public void onActivityResult(int requestCode, int resultCode, Intent intent){
@@ -116,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == RESULT_OK){
         if (requestCode == REQUEST_CODE_CAMERA) {
             // cancelしたケースも含む
             if(data.getExtras() == null){
@@ -134,6 +140,21 @@ public class MainActivity extends AppCompatActivity {
             }
 
             imageView.setImageBitmap(bitmap);
+        }else if(requestCode == REQUEST_CODE_GALLARY){
+            try{
+                InputStream inputStream = getContentResolver().openInputStream(getIntent().getData());
+                bitmap = BitmapFactory.decodeStream(inputStream);
+                inputStream.close();
+                imageView.setImageBitmap(bitmap);
+
+            }catch (Exception e){
+                Toast.makeText(this, "エラー", Toast.LENGTH_SHORT).show();
+            }
+
+            }
+        else if(resultCode == RESULT_CANCELED ){
+              Toast.makeText(this,"CANCEL",Toast.LENGTH_SHORT).show();
+          }
         }
     }
 }

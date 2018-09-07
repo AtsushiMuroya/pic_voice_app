@@ -14,10 +14,21 @@
         <ImageView
             android:id="@+id/image_view"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="0dp"
             android:layout_above="@+id/button"
+            android:layout_weight="1"
             android:scaleType="fitCenter"
             android:src="@drawable/konnitiwa" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary"
+            android:onClick="gallary"
+            android:text="ギャラリーから選ぶ"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/button2"
